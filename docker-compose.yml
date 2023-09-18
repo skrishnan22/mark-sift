@@ -1,0 +1,22 @@
+version: '3'
+services:
+  app:
+    image: node:18
+    container_name: mark-sift
+    restart: always
+    command: sh -c "npm install && npm start"
+    ports:
+      - 5001:5001
+    working_dir: /app
+    volumes:
+      - ./:/app
+  mongo:
+    image: mongo:6
+    container_name: mark-sift-mongo
+    restart: always
+    ports:
+      - 27001:27017
+    volumes:
+      - ~/mongo:/data/db
+volumes:
+  mongodb:
