@@ -1,4 +1,5 @@
 const bookmarkModel = require('./bookmark.model');
+const typesence = require('../../utils/typesense');
 /**
  * Save bookmark document in db
  * @param {*} req
@@ -26,9 +27,23 @@ async function createBookmark(req, res) {
  * @param {*} res
  */
 async function getBookmarks(req, res) {
-  const { pageNumber = 1, recordsPerPage = 10 } = req.query;
-  const skip = (pageNumber - 1) * recordsPerPage;
+  const { pageNumber = 1, recordsPerPage = 10, searchText } = req.query;
+  
+  if(searchText){
+    const typesenseClient = await typesence.getClient();
+    const searchOptions = {
+      q: searchText,
+      query_by: ['content', 'title', 'url']
+    }
+    const searchResult = await typesenseClient.collections('bookmarks').documents().search(searchOptions)
 
+    return res.json({
+      message: 'Bookmarks fetched',
+      data: searchResult
+    })
+  }
+
+  const skip = (pageNumber - 1) * recordsPerPage;
   const options = { skip, limit: Number(recordsPerPage), sort: { updatedAt: -1 } };
   const bookmarks = await bookmarkModel.find({}, null, options);
 
@@ -36,6 +51,7 @@ async function getBookmarks(req, res) {
     message: 'Bookmarks fetched',
     data: bookmarks
   })
+
 }
 
 module.exports.createBookmark = createBookmark;
