@@ -3,6 +3,7 @@ services:
   app:
     image: node:18
     container_name: mark-sift
+    build: ./app .
     restart: always
     command: sh -c "npm install && npm start"
     ports:
@@ -18,5 +19,25 @@ services:
       - 27001:27017
     volumes:
       - ~/mongo:/data/db
+  typesense:
+    image: typesense/typesense:0.25.0
+    entrypoint: sh -c "/opt/typesense-server --data-dir /data  --api-key=xyz --enable-cors"
+    ports:
+      - "8105:8108"
+    volumes:
+      - typesense-data:/data
+  searchSync:
+    image: node:18
+    container_name: mark-sift-sync
+    build: ./app .
+    depends_on:
+      - typesense
+    restart: always
+    command: sh -c "npm install && npm run sync"
+    working_dir: /app
+    volumes:
+      - ./:/app
 volumes:
   mongodb:
+  typesense-data:
+    driver: local
