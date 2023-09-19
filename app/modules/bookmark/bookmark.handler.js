@@ -3,10 +3,9 @@ const bookmarkModel = require('./bookmark.model');
  * Save bookmark document in db
  * @param {*} req
  * @param {*} res
- * @param {*} next
  * returns created db document
  */
-async function createBookmark(req, res, next) {
+async function createBookmark(req, res) {
   if (!req.body) {
     throw new Error('No bookmark content received');
   }
@@ -21,5 +20,23 @@ async function createBookmark(req, res, next) {
     data: createdBookmark
   });
 }
+/**
+ * Get paginated list of bookmarks
+ * @param {*} req
+ * @param {*} res
+ */
+async function getBookmarks(req, res) {
+  const { pageNumber = 1, recordsPerPage = 10 } = req.query;
+  const skip = (pageNumber - 1) * recordsPerPage;
+
+  const options = { skip, limit: Number(recordsPerPage), sort: { updatedAt: -1 } };
+  const bookmarks = await bookmarkModel.find({}, null, options);
+
+  res.json({
+    message: 'Bookmarks fetched',
+    data: bookmarks
+  })
+}
 
 module.exports.createBookmark = createBookmark;
+module.exports.getBookmarks = getBookmarks;
