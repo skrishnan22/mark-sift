@@ -1,7 +1,13 @@
 {
-  "db": {
-    "host": "mongo",
-    "port": 27017,
-    "name": "mark-sift"
+    "db": {
+      "host": "localhost",
+      "port": 27017,
+      "name": "mark-sift"
+    },
+    "typesense": {
+      "host": "localhost", 
+      "port": "8108", 
+      "protocol": "http",
+      "apiKey": ""
+    }
   }
-}
