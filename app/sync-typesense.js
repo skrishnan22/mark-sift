@@ -1,14 +1,12 @@
 const schedule = require('node-schedule');
-const Typesense = require('typesense');
 const axios = require('axios');
 const { Readability } = require('@mozilla/readability');
 const { JSDOM } = require('jsdom');
 const db = require('./utils/db');
 const config = require('config');
-const client = new Typesense.Client({
-  nodes: [{ host: config.get('typesense.host'), port: config.get('typesense.port'), protocol: config.get('typesense.protocol') }],
-  apiKey: config.get('typesense.apiKey')
-});
+const typesense = require('./utils/typesense');
+
+let client;
 const typesenseSchema = {
   name: 'bookmarks',
   fields: [
@@ -27,6 +25,8 @@ const job = schedule.scheduleJob('*/10 * * * * *', async function () {
 console.log(job);
 
 async function syncToTypesense() {
+  
+  client = await typesense.getClient();
   await createTypesenseCollection('bookmarks', typesenseSchema);
   const unsyncedBookmarks = await getUnsyncedBookmarks();
 
