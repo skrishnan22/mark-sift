@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development node app/index.js",
+    "start": "NODE_ENV=dockerBuild node app/index.js",
+    "sync": "NODE_ENV=dockerBuild node app/sync-typesense.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -16,6 +17,7 @@
     "express": "^4.18.2",
     "jsdom": "^22.1.0",
     "mongoose": "^7.5.2",
+    "node-schedule": "^2.1.1",
     "typesense": "^1.7.1"
   }
 }
