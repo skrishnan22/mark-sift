@@ -1,0 +1,29 @@
+{
+  "name": "mark-sift",
+  "private": true,
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "devDependencies": {
+  },
+  "eslintConfig": {
+    "env": {
+
+      "node": true,
+      "browser": true
+    },
+    "globals": {
+      "chrome": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 8
+    },
+    "rules": {
+      "eol-last": 0,
+      "quotes": [
+        2,
+        "single"
+      ]
+    }
+  }
+}
