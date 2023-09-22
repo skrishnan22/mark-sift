@@ -1,0 +1,25 @@
+{
+  "name": "mark-sift",
+  "version": "0.0.1",
+  "manifest_version": 3,
+  "description": "mark-sift",
+  "icons": {
+    "16": "images/icon-16.png",
+    "128": "images/icon-128.png"
+  },
+  "background": {
+    "service_worker": "scripts/background.js"
+  },
+  "permissions": [
+    "tabs",
+    "bookmarks"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/icon-16.png",
+      "48": "images/icon-38.png",
+      "128": "images/icon-128.png"
+    }
+  }
+}
