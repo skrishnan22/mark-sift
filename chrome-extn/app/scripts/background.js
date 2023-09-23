@@ -28,4 +28,7 @@ chrome.bookmarks.onCreated.addListener((bookmarkId, bookmark) => {
     });
 });
 
+chrome.action.onClicked.addListener(function(tab) {
+  chrome.tabs.create({url: chrome.runtime.getURL('mark-sift-bookmark.html')});
+});
 console.log('Service worker init successful');
