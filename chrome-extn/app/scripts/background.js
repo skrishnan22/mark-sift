@@ -14,7 +14,7 @@ chrome.bookmarks.onCreated.addListener((bookmarkId, bookmark) => {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ event: 'created', url: bookmark.url })
+    body: JSON.stringify({ bookmarkEvent: bookmark })
   })
     .then(response => {
       if (response.ok) {

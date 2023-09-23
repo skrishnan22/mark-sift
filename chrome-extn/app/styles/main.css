@@ -1,3 +1,22 @@
 body {
   padding: 20px;
 }
+
+.card {
+  width: 300px; 
+  height: 200px; 
+  overflow: hidden; 
+}
+
+
+.card h2 {
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: ellipsis;
+}
+
+
+.card a {
+  color: #3490dc;
+  text-decoration: none;
+}

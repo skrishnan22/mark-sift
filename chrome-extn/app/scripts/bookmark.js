@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const bookmarkList = document.getElementById('bookmark-list');
   const prevPageButton = document.getElementById('prev-page');
   const nextPageButton = document.getElementById('next-page');
+  const pageNumberElement = document.getElementById('page-number');
 
   const bookmarksPerPage = 3;
   let currentPage = 1;
@@ -18,11 +19,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         'shadow-md',
         'hover:shadow-lg',
         'transition',
-        'duration-300'
+        'duration-300',
+        'card'
       );
 
       const title = document.createElement('h2');
-      title.textContent = bookmark.title;
+      title.textContent = bookmark.url;
       title.classList.add('text-xl', 'font-semibold', 'mb-2');
 
       const link = document.createElement('a');
@@ -35,6 +37,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       listItem.appendChild(link);
 
       bookmarkList.appendChild(listItem);
+      pageNumberElement.textContent = currentPage;
     });
   }
 
@@ -57,7 +60,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   await renderBookmarks(currentPage, bookmarksPerPage);
-
   prevPageButton.addEventListener('click', () => {
     if (currentPage > 1) {
       --currentPage;
