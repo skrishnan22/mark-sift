@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const nextPageButton = document.getElementById('next-page');
   const pageNumberElement = document.getElementById('page-number');
 
-  const bookmarksPerPage = 3;
+  const bookmarksPerPage = 9;
   let currentPage = 1;
 
   async function renderBookmarks(pageNumber, recordsPerPage) {
@@ -24,8 +24,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       );
 
       const title = document.createElement('h2');
-      title.textContent = bookmark.url;
+      title.textContent = bookmark.title;
       title.classList.add('text-xl', 'font-semibold', 'mb-2');
+
+      const excerpt = document.createElement('p');
+      excerpt.textContent = bookmark.excerpt;
+      excerpt.classList.add('text-s', 'mb-2');
 
       const link = document.createElement('a');
       link.textContent = 'Visit Bookmark';
@@ -34,6 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       link.classList.add('text-blue-600', 'hover:underline');
 
       listItem.appendChild(title);
+      listItem.appendChild(excerpt);
       listItem.appendChild(link);
 
       bookmarkList.appendChild(listItem);

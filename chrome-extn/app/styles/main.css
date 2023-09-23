@@ -1,5 +1,6 @@
 body {
   padding: 20px;
+  background: linear-gradient(135deg, #f7f7f7, #f0f0f0);
 }
 
 .card {
@@ -10,9 +11,15 @@ body {
 
 
 .card h2 {
-  overflow: hidden;
-  white-space: normal;
-  text-overflow: ellipsis;
+  font-size: 1.25rem; 
+  height: 3.5rem; 
+  overflow: hidden; 
+  display: -webkit-box;
+  -webkit-line-clamp: 2; 
+  -webkit-box-orient: vertical;
+  white-space: normal; 
+  text-overflow: ellipsis; 
+  margin-bottom: 10px; 
 }
 
 
