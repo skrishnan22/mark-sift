@@ -11,11 +11,12 @@ async function createBookmark(req, res) {
   if (!req.body) {
     throw new Error('No bookmark content received');
   }
-  const { url } = req.body;
+  const { bookmarkEvent } = req.body;
   const bookmark = {
-    url
-  };
-
+    title: bookmarkEvent.title,
+    url: bookmarkEvent.url,
+    browserBookmarkId: bookmarkEvent.id
+  }
   const createdBookmark = await bookmarkModel.create(bookmark);
   res.json({
     message: 'Bookmark created',

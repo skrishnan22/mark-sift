@@ -14,7 +14,7 @@ chrome.bookmarks.onCreated.addListener((bookmarkId, bookmark) => {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ event: 'created', url: bookmark.url })
+    body: JSON.stringify({ bookmarkEvent: bookmark })
   })
     .then(response => {
       if (response.ok) {
@@ -28,4 +28,7 @@ chrome.bookmarks.onCreated.addListener((bookmarkId, bookmark) => {
     });
 });
 
+chrome.action.onClicked.addListener(function(tab) {
+  chrome.tabs.create({url: chrome.runtime.getURL('mark-sift-bookmark.html')});
+});
 console.log('Service worker init successful');

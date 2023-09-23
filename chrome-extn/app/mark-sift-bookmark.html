@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookmarks</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.7/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-semibold mb-4">My Bookmarks</h1>
+        <ul id="bookmark-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></ul>
+    </div>
+
+        <!-- Pagination controls -->
+        <div class="flex justify-center mt-4">
+            <button id="prev-page" class="bg-blue-600 text-white px-4 py-2 rounded-l hover:bg-blue-700">Previous</button>
+            <span id="page-number" class="px-4 py-2">1</span>
+            <button id="next-page" class="bg-blue-600 text-white px-4 py-2 rounded-r hover:bg-blue-700">Next</button>
+        </div>
+    <script src="scripts/bookmark.js"></script>
+</body>
+</html>
