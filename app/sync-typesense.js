@@ -33,7 +33,8 @@ async function syncToTypesense() {
   for (const bookmark of unsyncedBookmarks) {
     let searchIndexAttempted = true,
       searchIndexDone = false,
-      searchIndexFailReason = '';
+      searchIndexFailReason = '',
+      excerptContent;
     try {
       const { url } = bookmark;
       const urlContent = await extractContentFromURL(url);
@@ -45,13 +46,14 @@ async function syncToTypesense() {
         id: bookmark._id.toString()
       };
       
+      excerptContent =  urlContent.excerpt;
       await client.collections('bookmarks').documents().upsert(typesenseDocument);
       searchIndexDone = true;
     } catch (err) {
         console.log(err);
         searchIndexFailReason = err.message;
     } finally {
-        await bookmarkModel.findOneAndUpdate({_id: bookmark._id}, {$set: {searchIndexDone, searchIndexAttempted,searchIndexFailReason }})
+        await bookmarkModel.findOneAndUpdate({_id: bookmark._id}, {$set: {excerpt:excerptContent,  searchIndexDone, searchIndexAttempted,searchIndexFailReason }})
     }
   }
 }
