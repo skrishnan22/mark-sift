@@ -3,10 +3,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   const prevPageButton = document.getElementById('prev-page');
   const nextPageButton = document.getElementById('next-page');
   const pageNumberElement = document.getElementById('page-number');
+  const searchInput = document.getElementById('search-input');
 
   const bookmarksPerPage = 9;
   let currentPage = 1;
-
+  let searchText = '';
   async function renderBookmarks(pageNumber, recordsPerPage) {
     bookmarkList.innerHTML = '';
     const bookmarksToDisplay = await fetchBookmarks(pageNumber, recordsPerPage);
@@ -24,11 +25,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       );
 
       const title = document.createElement('h2');
-      title.textContent = bookmark.title;
+      title.innerHTML = bookmark?.hit?.title ? bookmark.hit.title : bookmark.title;
       title.classList.add('text-xl', 'font-semibold', 'mb-2');
 
       const excerpt = document.createElement('p');
-      excerpt.textContent = bookmark.excerpt;
+      excerpt.innerHTML = bookmark?.hit?.content ? bookmark.hit.content : bookmark.excerpt;
       excerpt.classList.add('text-s', 'mb-2');
 
       const link = document.createElement('a');
@@ -50,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let bookmarks = [];
     try {
       const response = await fetch(
-        `http://localhost:5001/bookmark?pageNumber=${pageNumber}&recordsPerPage=${recordsPerPage}`
+        `http://localhost:5001/bookmark?pageNumber=${pageNumber}&recordsPerPage=${recordsPerPage}&searchText=${searchText}`
       );
 
       if (response.ok) {
@@ -65,15 +66,34 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   await renderBookmarks(currentPage, bookmarksPerPage);
-  prevPageButton.addEventListener('click', () => {
+  prevPageButton.addEventListener('click', async () => {
     if (currentPage > 1) {
       --currentPage;
-      renderBookmarks(currentPage, bookmarksPerPage);
+      await renderBookmarks(currentPage, bookmarksPerPage);
     }
   });
 
-  nextPageButton.addEventListener('click', () => {
+  nextPageButton.addEventListener('click', async () => {
     ++currentPage;
-    renderBookmarks(currentPage, bookmarksPerPage);
+    await renderBookmarks(currentPage, bookmarksPerPage);
   });
+  // Debounce function to delay search input
+  function debounce(func, delay) {
+    let timeout;
+    return function () {
+      const context = this;
+      const args = arguments;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(context, args), delay);
+    };
+  }
+
+  const debouncedSearch = debounce(async () => {
+    const searchTerm = searchInput.value.trim();
+    searchText = searchTerm;
+    currentPage = 1;
+
+    await renderBookmarks(currentPage, bookmarksPerPage);
+  }, 300);
+  searchInput.addEventListener('input', debouncedSearch);
 });

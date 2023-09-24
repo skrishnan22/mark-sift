@@ -10,12 +10,38 @@
   <body>
     <div class="container mx-auto p-6">
       <h1 class="text-3xl font-semibold mb-4">My Bookmarks</h1>
+      <!-- Search Input -->
+      <div class="flex justify-end mb-4">
+        <div class="relative">
+          <input
+            type="text"
+            id="search-input"
+            class="border border-gray-300 rounded-full pl-10 pr-4 py-2 focus:outline-none focus:border-blue-400 transition duration-300"
+            placeholder="Search bookmarks"
+          />
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 text-gray-400"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M12.293 13.293a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              />
+              <path fill-rule="evenodd" d="M7 11a4 4 0 100-8 4 4 0 000 8z" clip-rule="evenodd" />
+            </svg>
+          </div>
+        </div>
+      </div>
       <ul id="bookmark-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-12"></ul>
     </div>
 
     <!-- Pagination controls -->
     <div class="container mx-auto p-6">
-        <div class="flex justify-center mt-4">
+      <div class="flex justify-center mt-4">
         <button id="prev-page" class="bg-blue-600 text-white px-4 py-2 rounded-l hover:bg-blue-700">Previous</button>
         <span id="page-number" class="px-4 py-2">1</span>
         <button id="next-page" class="bg-blue-600 text-white px-4 py-2 rounded-r hover:bg-blue-700">Next</button>
