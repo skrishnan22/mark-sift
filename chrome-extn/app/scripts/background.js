@@ -8,7 +8,6 @@ chrome.runtime.onInstalled.addListener(function (details) {
 //chrome.action.setBadgeText({text: '\'Allo'});
 
 chrome.bookmarks.onCreated.addListener((bookmarkId, bookmark) => {
-  console.log('bookmark agaya..', bookmark);
   fetch(`${LOCAL_SERVER_URL}/bookmark`, {
     method: 'POST',
     headers: {

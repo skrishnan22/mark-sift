@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       if (response.ok) {
         bookmarks = (await response.json()).data;
-        console.log(bookmarks);
       }
     } catch (err) {
       console.log('Could not fetch bookmarks', err);
