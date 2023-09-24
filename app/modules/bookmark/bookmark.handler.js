@@ -16,7 +16,7 @@ async function createBookmark(req, res) {
     title: bookmarkEvent.title,
     url: bookmarkEvent.url,
     browserBookmarkId: bookmarkEvent.id
-  }
+  };
   const createdBookmark = await bookmarkModel.create(bookmark);
   res.json({
     message: 'Bookmark created',
@@ -41,14 +41,28 @@ async function getBookmarks(req, res) {
     const searchResult = await typesenseClient.collections('bookmarks').documents().search(searchOptions);
 
     if (searchResult?.hits?.length) {
+      const matchHighlights = {};
       const matchingDocIds = searchResult.hits.map(hit => {
         if (hit?.document?.id) {
+          if (hit?.highlight) {
+            matchHighlights[hit.document.id] = {
+              title: hit.highlight?.title?.snippet,
+              content: hit.highlight?.content?.snippet
+            };
+          }
           return new mongoose.Types.ObjectId(hit.document.id);
         }
       });
-
       if (matchingDocIds.length) {
-        bookmarks = await bookmarkModel.find({ _id: { $in: matchingDocIds } }, null, { sort: { updatedAt: -1 } });
+        bookmarks = await bookmarkModel
+          .find({ _id: { $in: matchingDocIds } }, null, { sort: { updatedAt: -1 } })
+          .lean();
+        bookmarks = bookmarks.map(bookmark => {
+          if (matchHighlights[bookmark._id.toString()]) {
+            bookmark.hit = matchHighlights[bookmark._id.toString()];
+          }
+          return bookmark;
+        });
       }
     }
     return res.json({
