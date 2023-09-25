@@ -3,7 +3,6 @@ const axios = require('axios');
 const { Readability } = require('@mozilla/readability');
 const { JSDOM } = require('jsdom');
 const db = require('./utils/db');
-const config = require('config');
 const typesense = require('./utils/typesense');
 
 let client;
@@ -13,7 +12,7 @@ const typesenseSchema = {
     { name: 'title', type: 'string' },
     { name: 'content', type: 'string' },
     { name: 'sitename', type: 'string' },
-    { name: 'url', type: 'string' },
+    { name: 'url', type: 'string' }
   ]
 };
 const bookmarkModel = require('./modules/bookmark/bookmark.model');
@@ -25,7 +24,6 @@ const job = schedule.scheduleJob('*/10 * * * * *', async function () {
 console.log(job);
 
 async function syncToTypesense() {
-  
   client = await typesense.getClient();
   await createTypesenseCollection('bookmarks', typesenseSchema);
   const unsyncedBookmarks = await getUnsyncedBookmarks();
@@ -45,15 +43,18 @@ async function syncToTypesense() {
         url,
         id: bookmark._id.toString()
       };
-      
-      excerptContent =  urlContent.excerpt;
+
+      excerptContent = urlContent.excerpt;
       await client.collections('bookmarks').documents().upsert(typesenseDocument);
       searchIndexDone = true;
     } catch (err) {
-        console.log(err);
-        searchIndexFailReason = err.message;
+      console.log(err);
+      searchIndexFailReason = err.message;
     } finally {
-        await bookmarkModel.findOneAndUpdate({_id: bookmark._id}, {$set: {excerpt:excerptContent,  searchIndexDone, searchIndexAttempted,searchIndexFailReason }})
+      await bookmarkModel.findOneAndUpdate(
+        { _id: bookmark._id },
+        { $set: { excerpt: excerptContent, searchIndexDone, searchIndexAttempted, searchIndexFailReason } }
+      );
     }
   }
 }
@@ -63,8 +64,8 @@ async function getUnsyncedBookmarks() {
 }
 
 async function createTypesenseCollection(collectionName, schema) {
-const collections = await client.collections().retrieve();
-const collectionExists = collections.find(collection => collection.name === collectionName);
+  const collections = await client.collections().retrieve();
+  const collectionExists = collections.find(collection => collection.name === collectionName);
   if (!collectionExists) {
     return client.collections().create(schema);
   }
