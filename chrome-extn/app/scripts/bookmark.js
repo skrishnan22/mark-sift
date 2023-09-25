@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   const bookmarksPerPage = 9;
   let currentPage = 1;
   let searchText = '';
+  /**
+   * Get bookmark list from server and inject list items on the html container
+   * @param {Number} pageNumber 
+   * @param {Number} recordsPerPage 
+   */
   async function renderBookmarks(pageNumber, recordsPerPage) {
     bookmarkList.innerHTML = '';
     const bookmarksToDisplay = await fetchBookmarks(pageNumber, recordsPerPage);
@@ -47,6 +52,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
+  /**
+   * Wrapper function to make API call to fetch  paginated bookmarks
+   * @param {*} pageNumber 
+   * @param {*} recordsPerPage 
+   * @returns bookmarks - array of bookmark objects
+   */
   async function fetchBookmarks(pageNumber, recordsPerPage) {
     let bookmarks = [];
     try {
@@ -65,6 +76,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   await renderBookmarks(currentPage, bookmarksPerPage);
+
   prevPageButton.addEventListener('click', async () => {
     if (currentPage > 1) {
       --currentPage;
