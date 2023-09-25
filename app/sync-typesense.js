@@ -21,7 +21,6 @@ const job = schedule.scheduleJob('*/10 * * * * *', async function () {
   await db.connect();
   await syncToTypesense();
 });
-console.log(job);
 
 async function syncToTypesense() {
   client = await typesense.getClient();
