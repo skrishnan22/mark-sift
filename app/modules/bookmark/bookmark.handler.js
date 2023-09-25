@@ -27,6 +27,7 @@ async function createBookmark(req, res) {
  * Get paginated list of bookmarks
  * @param {*} req
  * @param {*} res
+ * returns [bookmark] - paginated list of bookmarks
  */
 async function getBookmarks(req, res) {
   const { pageNumber = 1, recordsPerPage = 10, searchText } = req.query;
@@ -81,5 +82,18 @@ async function getBookmarks(req, res) {
   }
 }
 
+async function deleteBookmark(req, res) {
+  const { browserBookmarkId } = req.params;
+  if (!browserBookmarkId) {
+    throw new Error('Browser Bookmark Id is required for deletion');
+  }
+
+  await bookmarkModel.deleteOne({ browserBookmarkId });
+  res.json({
+    message: 'Deleted Bookmark'
+  });
+}
+
 module.exports.createBookmark = createBookmark;
 module.exports.getBookmarks = getBookmarks;
+module.exports.deleteBookmark = deleteBookmark;

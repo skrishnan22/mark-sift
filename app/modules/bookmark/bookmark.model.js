@@ -17,7 +17,10 @@ const schema = new mongoose.Schema(
       default: false
     },
     searchIndexFailReason: String,
-    browserBookmarkId: String
+    browserBookmarkId: {
+      type: String,
+      index: true
+    }
   },
   {
     timestamps: true
