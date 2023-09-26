@@ -8,6 +8,7 @@ const schema = new mongoose.Schema(
     },
     title: String,
     excerpt: String,
+    domainName: String,
     searchIndexAttempted: {
       type: Boolean,
       default: false

@@ -1,6 +1,7 @@
 const bookmarkModel = require('./bookmark.model');
 const typesence = require('../../utils/typesense');
 const { default: mongoose } = require('mongoose');
+const url = require('url');
 /**
  * Save bookmark document in db
  * @param {*} req
@@ -17,6 +18,7 @@ async function createBookmark(req, res) {
     url: bookmarkEvent.url,
     browserBookmarkId: bookmarkEvent.id
   };
+  bookmark.domainName = url.parse(bookmark.url).hostname;
   const createdBookmark = await bookmarkModel.create(bookmark);
   res.json({
     message: 'Bookmark created',
