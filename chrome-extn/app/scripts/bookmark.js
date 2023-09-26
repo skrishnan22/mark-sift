@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       const excerpt = document.createElement('p');
       excerpt.innerHTML = bookmark?.hit?.content ? bookmark.hit.content : bookmark.excerpt;
-      excerpt.classList.add('text-s', 'mb-2');
+      excerpt.classList.add('text-s', 'mb-2', 'overflow-hidden');
 
       const link = document.createElement('a');
       link.textContent = 'Visit Bookmark';
